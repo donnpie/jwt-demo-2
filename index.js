@@ -43,7 +43,7 @@ app.get('/resource', (req, res) => {
             `Hello, ${decoded.name}! Your JSON Web Token has been verified.`
         })
     }catch (err) {
-        res.status(401).send({'err': 'Bad JWT!'})
+        res.status(401).send({'err': 'Bad JWT!'});
         //See 401 below
     }
 });
@@ -53,6 +53,8 @@ app.get('/admin_resource', (req, res) => {
     try {
         const decoded = jwt.verify(token, 'jwt-secret')
         if (decoded.admin){
+            //To get this to work, you must first generate a valid admin token
+            //Set admin = true in the auth post request above and use that token in this request
             res.send({'msg': 'Success!'})
         } else {
             res.status(403).send(
