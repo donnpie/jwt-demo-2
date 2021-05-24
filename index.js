@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -10,7 +11,16 @@ app.post('/login', (req, res) => {
     const usr = req.body.username
     const pwd = req.body.password
     if (usr==='UserName' && pwd==='1234'){
-        res.json({'status':'Success'})
+        payload = {
+            'name': usr,
+            'admin': false
+            }
+            const token = jwt.sign(
+                JSON.stringify(payload), 
+                'jwt-secret',
+                {algorithm: 'HS256'}
+            )
+            res.send({'token': token})
     } else {
         res.status(403).send({'err':'Incorrect login!'})
     }
